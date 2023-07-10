@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:swiftdynamic_test_flutter/PersonInfo/Provider/provider_person.dart';
 import 'package:swiftdynamic_test_flutter/PersonTabbar/person_tabbar.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ProviderPerson(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {

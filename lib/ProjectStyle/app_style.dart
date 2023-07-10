@@ -25,7 +25,7 @@ var editPersonAppBar = Text(
   editPersonAppBarText,
   style: TextStyle(
     fontFamily: "Prompt",
-    color: primanyBlue,
+    color: Colors.white,
   ),
 );
 
@@ -40,5 +40,5 @@ var addPersonButton = Text(
 );
 
 // Add Person
-var addPersonStep1 = Text('ข้อมูลส่วนตัว',style: TextStyle(fontFamily: 'prompt'),);
-var addPersonStep2 = Text('ที่อยู่ตามบัตรประชาชน',style: TextStyle(fontFamily: 'prompt'),);
+var personStep1 = Text('ข้อมูลส่วนตัว',style: TextStyle(fontFamily: 'prompt'),);
+var personStep2 = Text('ที่อยู่ตามบัตรประชาชน',style: TextStyle(fontFamily: 'prompt'),);

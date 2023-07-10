@@ -4,14 +4,19 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:provider/provider.dart';
+import 'package:swiftdynamic_test_flutter/PersonInfo/edit_person.dart';
 import 'package:swiftdynamic_test_flutter/ProjectStyle/app_text.dart';
 
+import '../../PersonInfo/Provider/provider_person.dart';
 import '../../ProjectStyle/app_image.dart';
 import '../../connect_to_http.dart';
 import 'package:http/http.dart' as Http;
 
 class PersonAllList extends StatefulWidget {
-  const PersonAllList({Key? key}) : super(key: key);
+  final String with_prov;
+
+  PersonAllList({required this.with_prov});
 
   @override
   State<PersonAllList> createState() => _PersonAllListState();
@@ -33,7 +38,7 @@ class _PersonAllListState extends State<PersonAllList> {
   }
 
   Future<void> loadData() async {
-    await getPersonList();
+    await getPersonList(widget.with_prov);
   }
 
   Future<void> refreshData() async {
@@ -47,10 +52,10 @@ class _PersonAllListState extends State<PersonAllList> {
 
     if(query.isNotEmpty){
       for(final data in personData){
-        if(data[pp_ic].toString().toLowerCase().contains(query.toLowerCase())
-            || data[pp_name].toString().toLowerCase().contains(query.toLowerCase())
-            || data[pp_sname].toString().toLowerCase().contains(query.toLowerCase())
-            || data[pp_prov].toString().toLowerCase().contains(query.toLowerCase())
+        if(data[pp_ic_json].toString().toLowerCase().contains(query.toLowerCase())
+            || data[pp_name_json].toString().toLowerCase().contains(query.toLowerCase())
+            || data[pp_sname_json].toString().toLowerCase().contains(query.toLowerCase())
+            || data[pp_prov_json].toString().toLowerCase().contains(query.toLowerCase())
         ){
           matches.add(data);
         }
@@ -113,7 +118,7 @@ class _PersonAllListState extends State<PersonAllList> {
 
                         final pd = filterList[index];
 
-                        String fullName = pd[pp_name]+" "+pd[pp_sname];
+                        String fullName = pd[pp_name_json]+" "+pd[pp_sname_json];
 
                         return Column(
                           children: [
@@ -194,7 +199,7 @@ class _PersonAllListState extends State<PersonAllList> {
                                             ),
                                             SizedBox(height: 8,),
                                             Text(
-                                              pd[pp_ic],
+                                              pd[pp_ic_json],
                                               style: TextStyle(
                                                 fontFamily: 'prompt',
                                                 fontWeight: FontWeight.w600,
@@ -202,7 +207,7 @@ class _PersonAllListState extends State<PersonAllList> {
                                               ),
                                             ),
                                             Text(
-                                              pd[pp_birth],
+                                              pd[pp_birth_json],
                                               style: TextStyle(
                                                 fontFamily: 'prompt',
                                                 color: Colors.white70,
@@ -223,7 +228,7 @@ class _PersonAllListState extends State<PersonAllList> {
                                                   context: context,
                                                   builder: (BuildContext context) {
                                                     return BackdropFilter(
-                                                      child: manageDialog(context, pd[pp_id]),
+                                                      child: manageDialog(context, pd[pp_id_json], filterList, index),
                                                       filter: ImageFilter.blur(
                                                         sigmaX: 6,
                                                         sigmaY: 6,
@@ -258,7 +263,7 @@ class _PersonAllListState extends State<PersonAllList> {
     );
   }
 
-  AlertDialog manageDialog(BuildContext context, int pp_id) {
+  AlertDialog manageDialog(BuildContext context, int pp_id, List<dynamic> currentPerson, int currentIndex) {
     return AlertDialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
@@ -276,25 +281,31 @@ class _PersonAllListState extends State<PersonAllList> {
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => EditStore.setText(
-                  //         sd['s_id'],
-                  //         sd['s_name'],
-                  //         sd['s_owner'],
-                  //         sd['s_tel'],
-                  //         sd['s_address'],
-                  //         sd['s_category'],
-                  //         sd['s_open'],
-                  //         sd['s_close']),
-                  //   ),
-                  // ).then((value) {
-                  //   if(value == true){
-                  //     Navigator.pop(context);
-                  //     refreshData();
-                  //   }
-                  // });
+                  final proPerson = Provider.of<ProviderPerson>(context, listen: false);
+                  final pd = currentPerson[currentIndex];
+
+                  proPerson.pp_id = pd[pp_id_json];
+                  proPerson.pp_ic = pd[pp_ic_json];
+                  proPerson.pp_name = pd[pp_name_json];
+                  proPerson.pp_sname = pd[pp_sname_json];
+                  proPerson.pp_birth = pd[pp_birth_json];
+                  proPerson.pp_addr = pd[pp_addr_json];
+                  proPerson.pp_road = pd[pp_road_json];
+                  proPerson.pp_subdist = pd[pp_subdist_json];
+                  proPerson.pp_dist = pd[pp_dist_json];
+                  proPerson.pp_prov = pd[pp_prov_json];
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditPerson(),
+                    ),
+                  ).then((value) {
+                    if(value == true){
+                      Navigator.pop(context);
+                      refreshData();
+                    }
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
@@ -415,9 +426,9 @@ class _PersonAllListState extends State<PersonAllList> {
     );
   }
 
-  Future getPersonList() async{
+  Future getPersonList(String pp_prov) async{
     HttpOverrides.global = MyHttpOverrides();
-    Uri url = Uri.parse("https://morvita.cocopatch.com/x_get_person.php");
+    Uri url = Uri.parse("https://morvita.cocopatch.com/x_get_person.php?pp_prov=$pp_prov");
     var response = await Http.get(url);
     print(response.body);
     setState(() {

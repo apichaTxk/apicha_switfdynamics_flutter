@@ -13,23 +13,23 @@ String addPersonButtonText = "เพิ่มข้อมูลบุคคล";
 String editPersonButtonText = "แก้ไขข้อมูลบุคคล";
 
 //TextFormField label
-String searchPersonFieldText = "ค้นหาข้อมูลบุคคล";
+String searchPersonFieldText = "ค้นหาเลขบัตร, ชื่อ, นามสกุล, จังหวัด";
 String searchProvinceFieldText = "ค้นหาจังหวัด";
 
 //Person Json
-String pp_id = "pp_id";
-String pp_date = "pp_date";
-String pp_time = "pp_time";
-String pp_ic = "pp_ic";
-String pp_name = "pp_name";
-String pp_sname = "pp_sname";
-String pp_birth = "pp_birth";
-String pp_addr = "pp_addr";
-String pp_road = "pp_road";
-String pp_subdist = "pp_subdist";
-String pp_dist = "pp_dist";
-String pp_prov = "pp_prov";
+String pp_id_json = "pp_id";
+String pp_date_json = "pp_date";
+String pp_time_json = "pp_time";
+String pp_ic_json = "pp_ic";
+String pp_name_json = "pp_name";
+String pp_sname_json = "pp_sname";
+String pp_birth_json = "pp_birth";
+String pp_addr_json = "pp_addr";
+String pp_road_json = "pp_road";
+String pp_subdist_json = "pp_subdist";
+String pp_dist_json = "pp_dist";
+String pp_prov_json = "pp_prov";
 
 //Province Json
-String p_id = "p_id";
-String p_name = "p_name";
+String p_id_json = "p_id";
+String p_name_json = "p_name";

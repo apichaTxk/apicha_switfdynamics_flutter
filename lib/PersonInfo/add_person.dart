@@ -56,7 +56,7 @@ class _AddPersonState extends State<AddPerson> {
   Future<void> loadData() async {
     await getProvinceList();
     for(var prov in provinceData){
-      province_dropdown.add(prov[p_name]);
+      province_dropdown.add(prov[p_name_json]);
     }
   }
 
@@ -164,15 +164,21 @@ class _AddPersonState extends State<AddPerson> {
                   controlsBuilder: (BuildContext context, ControlsDetails controls) {
                     return Row(
                       children: <Widget>[
-                        TextButton(
+                        ElevatedButton(
                           onPressed: controls.onStepContinue,
-                          child: (_currentStep == 1) ? const Text('เพิ่มข้อมูลบุคคล') : const Text('ต่อไป'),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                          child: (_currentStep == 1)
+                              ? const Text('เพิ่มข้อมูลบุคคล', style: TextStyle(fontFamily: 'prompt',),)
+                              : const Text('ต่อไป', style: TextStyle(fontFamily: 'prompt',),),
                         ),
-
                         if(_currentStep > 0)
                           TextButton(
                             onPressed: controls.onStepCancel,
-                            child: const Text('ยกเลิก', style: TextStyle(color: Colors.grey),),
+                            child: const Text('ย้อนกลับ', style: TextStyle(fontFamily: 'prompt',color: Colors.white,),),
                           ),
                       ],
                     );
@@ -180,7 +186,7 @@ class _AddPersonState extends State<AddPerson> {
                   steps: [
                     Step(
                       state: _currentStep == 0 ? StepState.editing : StepState.indexed,
-                      title: addPersonStep1,
+                      title: personStep1,
                       content: Form(
                         key: _formKeys[0],
                         child: Column(
@@ -195,7 +201,7 @@ class _AddPersonState extends State<AddPerson> {
                     ),
                     Step(
                       state: _currentStep == 1 ? StepState.editing : StepState.indexed,
-                      title: addPersonStep2,
+                      title: personStep2,
                       content: Form(
                         key: _formKeys[1],
                         child: Column(

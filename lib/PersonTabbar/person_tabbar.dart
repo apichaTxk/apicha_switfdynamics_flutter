@@ -70,7 +70,7 @@ class _PersonTabbarState extends State<PersonTabbar> {
           ),
           child: TabBarView(
             children: [
-              PersonAllList(),
+              PersonAllList(with_prov: "0",),
               PersonInProvince(),
             ],
           ),

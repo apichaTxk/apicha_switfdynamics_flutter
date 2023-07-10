@@ -5,6 +5,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
+import 'package:swiftdynamic_test_flutter/PersonTabbar/PersonAllList/person_all_list.dart';
+import 'package:swiftdynamic_test_flutter/PersonTabbar/PersonInProvince/province_inside.dart';
 import 'package:swiftdynamic_test_flutter/ProjectStyle/app_text.dart';
 
 import '../../ProjectStyle/app_image.dart';
@@ -48,7 +50,7 @@ class _PersonInProvinceState extends State<PersonInProvince> {
 
     if(query.isNotEmpty){
       for(final data in provinceData){
-        if(data[p_name].toString().toLowerCase().contains(query.toLowerCase())
+        if(data[p_name_json].toString().toLowerCase().contains(query.toLowerCase())
         ){
           matches.add(data);
         }
@@ -115,7 +117,12 @@ class _PersonInProvinceState extends State<PersonInProvince> {
                           children: [
                             InkWell(
                               onTap: (){
-                                // Navigation push
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ProvinceInside(insert_prov: provd[p_name_json]),
+                                  ),
+                                );
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -147,7 +154,7 @@ class _PersonInProvinceState extends State<PersonInProvince> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      provd[p_name],
+                                      provd[p_name_json],
                                       style: TextStyle(
                                         fontFamily: "Prompt",
                                         fontSize: 20,
