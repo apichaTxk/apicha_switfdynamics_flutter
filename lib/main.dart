@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:swiftdynamic_test_flutter/PersonInfo/Provider/provider_person.dart';
 import 'package:swiftdynamic_test_flutter/PersonTabbar/person_tabbar.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,10 @@ void main() {
       child: MyApp(),
     ),
   );
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 }
 
 class MyApp extends StatefulWidget {

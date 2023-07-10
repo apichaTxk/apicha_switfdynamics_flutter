@@ -124,7 +124,18 @@ class _PersonAllListState extends State<PersonAllList> {
                           children: [
                             InkWell(
                               onTap: (){
-                                // Navigation push
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return BackdropFilter(
+                                      child: showPersonDetail(context, filterList, index),
+                                      filter: ImageFilter.blur(
+                                        sigmaX: 6,
+                                        sigmaY: 6,
+                                      ),
+                                    );
+                                  },
+                                );
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -423,6 +434,85 @@ class _PersonAllListState extends State<PersonAllList> {
           },
         ),
       ],
+    );
+  }
+
+  AlertDialog showPersonDetail(BuildContext context, List<dynamic> currentPerson, int currentIndex) {
+    final pd = currentPerson[currentIndex];
+
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      title: Text(
+        "ข้อมูลบุคคล",
+        style: TextStyle(
+          fontFamily: 'prompt',
+        ),
+      ),
+      content: SingleChildScrollView(
+        child: Column(
+          children: [
+            showText("เลขบัตร : ", pd[pp_ic_json]),
+            showText("ชื่อ : ", pd[pp_name_json]),
+            showText("นามสกุล : ", pd[pp_sname_json]),
+            showText("วันเกิด : ", pd[pp_birth_json]),
+            showText("ที่อยู่ : ", pd[pp_addr_json]),
+            showText("ถนน : ", pd[pp_road_json]),
+            showText("ตำบล : ", pd[pp_subdist_json]),
+            showText("อำเภอ : ", pd[pp_dist_json]),
+            showText("จังหวัด : ", pd[pp_prov_json]),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        TextButton(
+          child: Text(
+            'เสร็จสิ้น',
+            style: TextStyle(
+                fontFamily: 'prompt',
+                color: Colors.blue
+            ),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ],
+    );
+  }
+
+  Padding showText(String frontText, String infoText) {
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            frontText,
+            style: TextStyle(
+              fontFamily: 'prompt',
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context)
+                .size
+                .width *
+                0.4,
+            child: Text(
+              infoText,
+              style: TextStyle(
+                fontFamily: 'prompt',
+                fontSize: 18,
+                color: Colors.black54,
+              ),
+              maxLines: 5,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

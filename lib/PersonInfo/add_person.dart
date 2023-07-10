@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import 'package:intl/intl.dart';
 import 'package:swiftdynamic_test_flutter/PersonInfo/PersonModel/person_model.dart';
+import 'package:swiftdynamic_test_flutter/PersonInfo/Validator/ex_validator.dart';
 import 'package:swiftdynamic_test_flutter/ProjectStyle/app_style.dart';
 import 'package:swiftdynamic_test_flutter/ProjectStyle/app_text.dart';
 
@@ -234,6 +235,22 @@ class _AddPersonState extends State<AddPerson> {
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'กรุณากรอกข้อมูล';
+          }
+          if(state_data == 0){
+            if(value.contains(checkICNumerical)){
+              return 'กรุณาใส่เฉพาะตัวเลขเท่านั้น';
+            }
+            if(value.length != 13){
+              return 'กรุณากรอกข้อมูลให้ครบ 13 หลัก';
+            }
+          }
+          if(state_data == 1 || state_data == 2){
+            if (value.contains(' ')) {
+              return 'ห้ามเว้นวรรค';
+            }
+            if (value.contains(checkNoNumerical)) {
+              return 'ห้ามใส่ตัวเลข';
+            }
           }
           return null;
         },

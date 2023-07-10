@@ -15,6 +15,8 @@ import 'package:http/http.dart' as Http;
 
 import 'package:provider/provider.dart';
 
+import 'Validator/ex_validator.dart';
+
 class EditPerson extends StatefulWidget {
   const EditPerson({Key? key}) : super(key: key);
 
@@ -238,6 +240,22 @@ class _EditPersonState extends State<EditPerson> {
         validator: (value) {
           if (value == null || value.isEmpty) {
             return 'กรุณากรอกข้อมูล';
+          }
+          if(state_data == 0){
+            if(value.contains(checkICNumerical)){
+              return 'กรุณาใส่เฉพาะตัวเลขเท่านั้น';
+            }
+            if(value.length != 13){
+              return 'กรุณากรอกข้อมูลให้ครบ 13 หลัก';
+            }
+          }
+          if(state_data == 1 || state_data == 2){
+            if (value.contains(' ')) {
+              return 'ห้ามเว้นวรรค';
+            }
+            if (value.contains(checkNoNumerical)) {
+              return 'ห้ามใส่ตัวเลข';
+            }
           }
           return null;
         },
